@@ -63,10 +63,27 @@ class(students$sex)
 
 ## 1.3) Grades
 
+### Q4)
 ```{r}
 grades_clean <- read_delim(here("subject-8","grades.csv"),
   delim = ":",
   na = "$"
 )
 ```
+
+## 2) Student population analysis
+### Q5)
+
+```{r}
+ggplot(students, aes(x = factor(group))) +
+  geom_bar() +
+  labs(
+    title = "Number of Students per Group",
+    x = "Group",
+    y = "Number of Students"
+  )
+```
+
+
+
 
