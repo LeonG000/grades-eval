@@ -6,7 +6,9 @@ editor: visual
 ---
 
 ## 1.1) Study organisation
+
 ### Q1)
+
 ```{r}
 library(here)
 library(ggplot2)
@@ -23,3 +25,17 @@ here::i_am("grades-eval.Rproj")
 courses <- read.csv(here("subject-8","courses.csv"))
 ```
 
+### Q2)
+
+```{r}
+courses_renamed <- courses |>
+  rename(
+    course = course,
+    identifier = course_id,
+    module = module,
+    number_of_exams = nb_grades
+  ) |>
+  arrange(course)
+
+kable(courses_renamed)
+```
