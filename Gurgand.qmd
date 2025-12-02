@@ -39,3 +39,26 @@ courses_renamed <- courses |>
 
 kable(courses_renamed)
 ```
+
+## 1.2) Students
+
+### Q3)
+
+```{r}
+students <- read.csv(here("subject-8","students.csv"))
+```
+
+```{r}
+students <- students |>
+  mutate(
+    birth_date = as.Date(birth_date), 
+    sex = as.factor(sex)
+  )
+```
+
+```{r}
+class(students$birth_date)
+class(students$sex)
+```
+
+
