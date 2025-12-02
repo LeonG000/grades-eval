@@ -223,4 +223,23 @@ grades_per_student |>
   )
 ```
 
+### Q15
+
+```{r}
+xeno_course_id <- courses |>
+  filter(course == "Xenobiology and Extraterrestrial Life") |>
+  pull(course_id)
+
+xeno_grades_per_student <- grades_clean |>
+  filter(course_id == xeno_course_id) |>
+  group_by(id) |>
+  summarise(nb_grades_xeno = n(), .groups = "drop") |>
+
+  left_join(students |> select(id, group), by = "id") |>
+  select(id, group, nb_grades_xeno)
+
+xeno_grades_per_student |>
+  slice_head(n = 10) |>
+  kable()
+```
 
