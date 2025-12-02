@@ -5,8 +5,9 @@ format: html
 editor: visual
 ---
 
-link to the GitHub : https://github.com/LeonG000/grades-eval \## 1.1) Study organisation
+link to the GitHub : https://github.com/LeonG000/grades-eval 
 
+## 1.1) Study organisation
 ### Q1)
 
 ```{r}
@@ -506,5 +507,25 @@ ggplot(pass_rate_group, aes(x = factor(group), y = pass_rate)) +
     x = "Group",
     y = "Pass Rate (%)"
   )
+```
+
+### Q29
+```{r}
+grades_long <- grades_wide |>
+  pivot_longer(
+    cols = -c(id, group),
+    names_to = "course",
+    values_to = "avg_grade"
+  )
+
+failure_by_course <- grades_long |>
+  filter(avg_grade < 5) |>
+  group_by(course) |>
+  summarise(n_failures = n(), .groups = "drop") |>
+  arrange(desc(n_failures))
+
+most_responsible_course <- failure_by_course |> slice_head(n = 1)
+
+most_responsible_course
 ```
 
