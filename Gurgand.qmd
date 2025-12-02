@@ -188,6 +188,27 @@ ggplot(grades_with_module, aes(x = module, y = grade, fill = as.factor(module)))
   )
 ```
 
+## 4) Attendance analysis
+
+### Q13
+```{r}
+grades_per_student <- grades_clean |>
+  group_by(id) |>
+  summarise(nb_grades = n(), .groups = "drop") |>
+  inner_join(students |> select(id, group, sex), by = "id")
+
+grades_per_student |>
+  slice_head(n = 5) |>
+  kable()
+
+summary_table <- grades_per_student |>
+  summarise(
+    min = min(nb_grades),
+    max = max(nb_grades),
+    mean = round(mean(nb_grades), 1),
+    median = median(nb_grades)
+  )
+```
 
 
 
