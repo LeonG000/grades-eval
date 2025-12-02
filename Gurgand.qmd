@@ -395,6 +395,20 @@ final_grades |>
   slice_head(n = 5)
 ```
 
+### Q24
+
+```{r}
+grades_by_group <- final_grades |>
+  group_by(group) |>
+  summarise(
+    mean_grade = mean(final_grade, na.rm = TRUE),
+    median_grade = median(final_grade, na.rm = TRUE),
+    sd_grade = sd(final_grade, na.rm = TRUE),
+    n_students = n()
+  )
+
+grades_by_group
+```
 
 
 
