@@ -347,10 +347,6 @@ course_x <- "Cybernetics and Human Augmentation"
 course_y <- "Astroengineering and Planetary Colonization"
 
 correlation_by_group <- grades_wide |>
-  mutate(
-    !!course_x := as.numeric(.data[[course_x]]),
-    !!course_y := as.numeric(.data[[course_y]])
-  ) |>
   group_by(group) |>
   summarise(
     correlation = cor(.data[[course_x]], .data[[course_y]], use = "complete.obs"),
@@ -360,3 +356,25 @@ correlation_by_group <- grades_wide |>
 correlation_by_group
 ```
 We observe here also a positive correlation for every group
+
+### Q22
+
+```{r}
+target_group <- correlation_by_group |>
+  slice_max(abs(correlation), n = 1) |>
+  pull(group)
+
+grades_target_group <- grades_wide |>
+  filter(group == target_group)
+
+ggplot(grades_target_group, aes(x = .data[[course_x]], y = .data[[course_y]])) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    x = course_x,
+    y = course_y,
+    title = paste("Average grades for Group", target_group, 
+                  "with the strongest correlation")
+  )
+```
+
