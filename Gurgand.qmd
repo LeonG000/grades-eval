@@ -4,3 +4,22 @@ author: "Leon Gurgand"
 format: html
 editor: visual
 ---
+
+## 1.1) Study organisation
+### Q1)
+```{r}
+library(here)
+library(ggplot2)
+library(vroom)
+library(dplyr)
+library(tidyr)
+library(knitr)
+library(readr)
+here::i_am("grades-eval.Rproj")
+```
+
+```{r}
+#|eval: false
+courses <- read.csv(here("subject-8","courses.csv"))
+```
+
