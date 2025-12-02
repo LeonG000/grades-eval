@@ -315,5 +315,27 @@ grades_wide |>
   kable()
 ```
 
+### Q20
 
+```{r}
 
+xeno_course <- "Xenobiology and Extraterrestrial Life"
+vr_course   <- "Virtual Reality and Simulated Environments"
+
+grades_wide <- grades_wide |>
+  mutate(
+    !!xeno_course := as.numeric(.data[[xeno_course]]),
+    !!vr_course   := as.numeric(.data[[vr_course]])
+  )
+
+ggplot(grades_wide, aes(x = .data[[xeno_course]], y = .data[[vr_course]])) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE,color = "red") +
+  labs(
+    x = paste("Average grades in", xeno_course),
+    y = paste("Average grades in", vr_course),
+    color = "Group",
+    title = "Comparison of student averages between Xenobiology and Virtual Reality courses"
+  )
+```
+We observe a positive correlation  between average grades in   Xenobiology and Extraterrestrial Life and in Virtual Reality and Simulated Environments.
