@@ -171,7 +171,7 @@ ggplot(vr_avg, aes(x = group, y = avg_grade)) +
   )
 ```
 
-### Q12
+### Q12)
 
 ```{r}
 grades_with_module <- grades_clean |>
@@ -190,7 +190,7 @@ ggplot(grades_with_module, aes(x = module, y = grade, fill = as.factor(module)))
 
 ## 4) Attendance analysis
 
-### Q13
+### Q13)
 ```{r}
 grades_per_student <- grades_clean |>
   group_by(id) |>
@@ -210,7 +210,7 @@ summary_table <- grades_per_student |>
   )
 ```
 
-### Q14
+### Q14)
 
 ```{r}
 grades_per_student |>
@@ -223,7 +223,7 @@ grades_per_student |>
   )
 ```
 
-### Q15
+### Q15)
 
 ```{r}
 xeno_course_id <- courses |>
@@ -243,7 +243,7 @@ xeno_grades_per_student |>
   kable()
 ```
 
-### Q16
+### Q16)
 
 ```{r}
 xeno_distribution <- xeno_grades_per_student |>
@@ -259,7 +259,7 @@ ggplot(xeno_distribution, aes(x = nb_grades_xeno, y = n_students)) +
   )
 ```
 
-### Q17
+### Q17)
 
 ```{r}
 ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = factor(group))) +
@@ -273,7 +273,7 @@ ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = factor(gr
   )
 ```
 
-### Q18
+### Q18)
 
 ```{r}
 xeno_grades_per_student <- xeno_grades_per_student |>
@@ -291,7 +291,7 @@ ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = sex)) +
 ```
 
 ## 5) Grade analysis
-### Q19
+### Q19)
 
 ```{r}
 grades_avg <- grades_clean |>
@@ -315,7 +315,7 @@ grades_wide |>
   kable()
 ```
 
-### Q20
+### Q20)
 
 ```{r}
 
@@ -340,7 +340,7 @@ ggplot(grades_wide, aes(x = .data[[xeno_course]], y = .data[[vr_course]])) +
 ```
 We observe a positive correlation  between average grades in   Xenobiology and Extraterrestrial Life and in Virtual Reality and Simulated Environments.
 
-### Q21
+### Q21)
 
 ```{r}
 course_x <- "Cybernetics and Human Augmentation"
@@ -357,7 +357,7 @@ correlation_by_group
 ```
 We observe here also a positive correlation for every group
 
-### Q22
+### Q22)
 
 ```{r}
 target_group <- correlation_by_group |>
@@ -378,7 +378,7 @@ ggplot(grades_target_group, aes(x = .data[[course_x]], y = .data[[course_y]])) +
   )
 ```
 
-### Q23
+### Q23)
 
 ```{r}
 
@@ -395,7 +395,7 @@ final_grades |>
   slice_head(n = 5)
 ```
 
-### Q24
+### Q24)
 
 ```{r}
 grades_by_group <- final_grades |>
@@ -418,7 +418,7 @@ ggplot(final_grades, aes(x = factor(group), y = final_grade)) +
   )
 ```
 
-### Q25
+### Q25)
 
 ```{r}
 final_grades <- final_grades |>
@@ -444,4 +444,45 @@ ggplot(final_grades, aes(x = factor(group), y = final_grade, fill = sex)) +
     title = "Distribution of Final Grades by Group and Sex"
   )
 ```
+
+### Q26)
+
+```{r}
+grades_wide <- grades_wide %>%
+  rowwise() %>%
+  mutate(final_grade = mean(c_across(-c(id, group)), na.rm = TRUE)) %>%
+  ungroup()
+
+module_avg <- grades_wide |>
+  pivot_longer(
+    cols = -c(id, group),
+    names_to = "course",
+    values_to = "avg_grade"
+  ) |>
+  left_join(courses |> select(course, module), by = "course") |>
+  group_by(id, group, module) |>
+  summarise(module_avg = mean(avg_grade, na.rm = TRUE), .groups = "drop")
+
+module_pass <- module_avg |>
+  group_by(id, group) |>
+  summarise(all_modules_pass = all(module_avg >= 10), .groups = "drop")
+
+course_pass <- grades_wide |>
+  pivot_longer(
+    cols = -c(id, group),
+    names_to = "course",
+    values_to = "avg_grade"
+  ) |>
+  group_by(id, group) |>
+  summarise(all_courses_pass = all(avg_grade >= 5), .groups = "drop")
+
+final_pass <- grades_wide |>
+  select(id, group, final_grade) |>
+  left_join(module_pass, by = c("id", "group")) |>
+  left_join(course_pass, by = c("id", "group")) |>
+  mutate(pass = all_modules_pass & all_courses_pass) |>
+  select(id, group, final_grade, pass)
+```
+
+
 
