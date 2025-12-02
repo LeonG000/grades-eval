@@ -148,3 +148,26 @@ kable(oldest_per_group,
 ### Q10)
 
 The data set contains `r nrow(grades_clean |> filter(!is.na(grade)))` grades.
+
+### Q11)
+
+```{r}
+vr_course_id <- courses |>
+  filter(course == "Virtual Reality and Simulated Environments") |>
+  pull(course_id)
+
+vr_avg <- grades_clean |>
+  filter(course_id == vr_course_id) |>
+  inner_join(students, by = "id") |>
+  group_by(group) |>
+  summarise(avg_grade = mean(grade, na.rm = TRUE)) 
+
+ggplot(vr_avg, aes(x = group, y = avg_grade)) +
+  geom_col() +
+  labs(
+    title = "Average grade in 'Virtual Reality and Simulated Environments' by group",
+    x = "Group",
+    y = "Average Grade"
+  )
+```
+
