@@ -84,6 +84,18 @@ ggplot(students, aes(x = factor(group))) +
   )
 ```
 
+### Q6)
+
+```{r}
+ggplot(students, aes(x = factor(group), fill = sex)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Gender Balance per Group",
+    x = "Group",
+    y = "Percentage of Students",
+    fill = "Gender"
+  )
+```
 
 
 
