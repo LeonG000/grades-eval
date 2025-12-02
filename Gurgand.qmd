@@ -171,3 +171,23 @@ ggplot(vr_avg, aes(x = group, y = avg_grade)) +
   )
 ```
 
+### Q12
+
+```{r}
+grades_with_module <- grades_clean |>
+  inner_join(courses, by = "course_id") |>
+  select(id, course_id, grade, module) |>
+  filter(!is.na(grade))
+
+ggplot(grades_with_module, aes(x = module, y = grade, fill = as.factor(module))) +
+  geom_boxplot() +
+  labs(
+    title = "Comparison of grade distributions by module",
+    x = "Module",
+    y = "Grade"
+  )
+```
+
+
+
+
