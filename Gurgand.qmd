@@ -273,8 +273,22 @@ ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = factor(gr
   )
 ```
 
+### Q18
 
+```{r}
+xeno_grades_per_student <- xeno_grades_per_student |>
+  left_join(students |> select(id, sex), by = "id")
 
+ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = sex)) +
+  geom_bar(position = "dodge") + 
+  facet_wrap(~ group) + 
+  labs(
+    x = "Number of grades in Xenobiology and Extraterrestrial Life",
+    y = "Number of students",
+    fill = "Sex",
+    title = "Number of students by grades, group, and sex"
+  )
+```
 
 
 
