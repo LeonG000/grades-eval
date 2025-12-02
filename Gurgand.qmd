@@ -243,3 +243,19 @@ xeno_grades_per_student |>
   kable()
 ```
 
+### Q16
+
+```{r}
+xeno_distribution <- xeno_grades_per_student |>
+  group_by(nb_grades_xeno) |>
+  summarise(n_students = n(), .groups = "drop")
+
+ggplot(xeno_distribution, aes(x = nb_grades_xeno, y = n_students)) +
+  geom_col() +
+  labs(
+    x = "Number of grades in Xenobiology and Extraterrestrial Life",
+    y = "Number of students",
+    title = "Distribution of number of grades per student"
+  )
+```
+
