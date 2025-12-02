@@ -339,3 +339,24 @@ ggplot(grades_wide, aes(x = .data[[xeno_course]], y = .data[[vr_course]])) +
   )
 ```
 We observe a positive correlation  between average grades in   Xenobiology and Extraterrestrial Life and in Virtual Reality and Simulated Environments.
+
+### Q21
+
+```{r}
+course_x <- "Cybernetics and Human Augmentation"
+course_y <- "Astroengineering and Planetary Colonization"
+
+correlation_by_group <- grades_wide |>
+  mutate(
+    !!course_x := as.numeric(.data[[course_x]]),
+    !!course_y := as.numeric(.data[[course_y]])
+  ) |>
+  group_by(group) |>
+  summarise(
+    correlation = cor(.data[[course_x]], .data[[course_y]], use = "complete.obs"),
+    .groups = "drop"
+  )
+
+correlation_by_group
+```
+We observe here also a positive correlation for every group
