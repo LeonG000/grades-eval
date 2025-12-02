@@ -61,4 +61,12 @@ class(students$birth_date)
 class(students$sex)
 ```
 
+## 1.3) Grades
+
+```{r}
+grades_clean <- read_delim(here("subject-8","grades.csv"),
+  delim = ":",
+  na = "$"
+)
+```
 
