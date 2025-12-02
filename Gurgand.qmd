@@ -259,3 +259,23 @@ ggplot(xeno_distribution, aes(x = nb_grades_xeno, y = n_students)) +
   )
 ```
 
+### Q17
+
+```{r}
+ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = factor(group))) +
+  geom_bar(position = "fill") + 
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(
+    x = "Number of grades in Xenobiology and Extraterrestrial Life",
+    y = "Percentage of students",
+    fill = "Group",
+    title = "Proportion of students per number of grades by group"
+  )
+```
+
+
+
+
+
+
+
