@@ -1,0 +1,6 @@
+---
+title: "Gurgand"
+author: "Leon Gurgand"
+format: html
+editor: visual
+---
