@@ -484,5 +484,11 @@ final_pass <- grades_wide |>
   select(id, group, final_grade, pass)
 ```
 
+### Q27
+```{r}
+final_pass |>
+  filter(pass == FALSE & final_grade >= 10) |>
+  summarise(n_students = n())
+```
 
 
