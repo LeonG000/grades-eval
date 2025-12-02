@@ -97,5 +97,20 @@ ggplot(students, aes(x = factor(group), fill = sex)) +
   )
 ```
 
+### Q7)
+
+```{r}
+library(lubridate)
+students_age <- students |>
+  mutate(age = time_length(today() - birth_date, unit = "year"))
+
+ggplot(students_age, aes(x = age)) +
+  geom_histogram(binwidth = 1) +
+  labs(
+    title = "Distribution of Student Ages",
+    x = "Age (years)",
+    y = "Number of students"
+  )
+```
 
 
