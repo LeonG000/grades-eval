@@ -406,9 +406,42 @@ grades_by_group <- final_grades |>
     sd_grade = sd(final_grade, na.rm = TRUE),
     n_students = n()
   )
-
 grades_by_group
+
+
+ggplot(final_grades, aes(x = factor(group), y = final_grade)) +
+  geom_boxplot() +
+  labs(
+    x = "Group",
+    y = "Final grade",
+    title = "Distribution of final grades by group"
+  )
 ```
 
+### Q25
 
+```{r}
+final_grades <- final_grades |>
+  left_join(students |> select(id, sex), by = "id")
+
+summary_including_sex <- final_grades |>
+  group_by(group, sex) |>
+  summarise(
+    n_students = n(),
+    mean_grade = mean(final_grade, na.rm = TRUE),
+    median_grade = median(final_grade, na.rm = TRUE),
+    sd_grade = sd(final_grade, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+summary_including_sex |> kable() 
+
+ggplot(final_grades, aes(x = factor(group), y = final_grade, fill = sex)) +
+  geom_boxplot() +
+  labs(
+    x = "Group",
+    y = "Final Grade",
+    title = "Distribution of Final Grades by Group and Sex"
+  )
+```
 
