@@ -378,3 +378,23 @@ ggplot(grades_target_group, aes(x = .data[[course_x]], y = .data[[course_y]])) +
   )
 ```
 
+### Q23
+
+```{r}
+
+final_grades <- grades_wide |>
+  rowwise() |> 
+  mutate(
+    final_grade = mean(c_across(-c(id, group)), na.rm = TRUE)  
+  ) |>
+  ungroup() |>
+  select(id, group, final_grade) |>
+  arrange(desc(final_grade)) 
+
+final_grades |>
+  slice_head(n = 5)
+```
+
+
+
+
