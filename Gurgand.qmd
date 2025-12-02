@@ -290,6 +290,30 @@ ggplot(xeno_grades_per_student, aes(x = factor(nb_grades_xeno), fill = sex)) +
   )
 ```
 
+## 5) Grade analysis
+### Q19
+
+```{r}
+grades_avg <- grades_clean |>
+  group_by(id, course_id) |>
+  summarise(avg_grade = mean(grade, na.rm = TRUE), .groups = "drop")
+
+grades_avg <- grades_avg |>
+  left_join(students |> select(id, group), by = "id")
+
+grades_avg <- grades_avg |>
+  left_join(courses |> select(course, course_id), by = "course_id")
+
+grades_wide <- grades_avg |>
+  select(id, group, course, avg_grade) |>
+  pivot_wider(names_from = course, values_from = avg_grade)
+
+grades_wide |>
+  select(id, group, `Astroengineering and Planetary Colonization`, 
+         `Artificial Intelligence and Robotics`) |>
+  slice_head(n = 10) |>
+  kable()
+```
 
 
 
